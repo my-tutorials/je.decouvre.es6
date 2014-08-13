@@ -210,10 +210,24 @@ et mon identité secrète est:
   }
 }</code></pre>
 <p>Avec ES6, nous pouvons nous passer du mot clé <code>function</code>, de cette manière:</p>
-<p>``<code>javascript</code> function getSuperhero ( firstName , lastName , superheroName) {</p>
-<p>return { firstName , lastName , superheroName , hello() { return <code>Je suis ${superheroName} aka &quot;${firstName} ${lastName}&quot;</code>; } } }</p>
-<p>var clarkKent = getSuperhero(&quot;Clark&quot;, &quot;Kent&quot;, &quot;Superman&quot;);</p>
-<p>console.log(clarkKent.hello()) ```</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">getSuperhero</span> (
+    firstName
+  , lastName
+  , superheroName) {
+
+  <span class="kw">return</span> {
+      firstName
+    , lastName
+    , superheroName
+    , <span class="fu">hello</span>()  {
+      <span class="kw">return</span> `Je suis ${superheroName} aka <span class="st">&quot;${firstName} ${lastName}&quot;</span>`;
+    }
+  }
+}
+
+<span class="kw">var</span> clarkKent = <span class="fu">getSuperhero</span>(<span class="st">&quot;Clark&quot;</span>, <span class="st">&quot;Kent&quot;</span>, <span class="st">&quot;Superman&quot;</span>);
+
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="ot">clarkKent</span>.<span class="fu">hello</span>())</code></pre>
 <p>Et vous obtiendrez bien:</p>
 <pre class="shell"><code>Je suis Superman aka &quot;Clark Kent&quot; </code></pre>
 <p>Nous avons donc une notation plus concise qui permet de gagner en lisibilité. Dans le paragraphe suivant je vais vous parler d'une nouvelle méthode &quot;utilitaire&quot; ajoutée à <code>Object</code>, la méthode <code>assign()</code> qui va vous permettre de donner un côté &quot;fonctionnel&quot; à votre code.</p>
@@ -316,8 +330,10 @@ Hello, I&#39;m Tony Stark </code></pre>
 
 <span class="kw">export</span> <span class="kw">default</span> SuperHero;</code></pre>
 <p><strong>Notez bien</strong> l'utilisation du mot-clé <code>super</code> pour utiliser le constructeur de la classe parente. Ensuite pour utiliser notre nouvelle classe retournez dans <code>main.js</code>:</p>
-<p>``<code>javascript</code> var clark = new SuperHero(&quot;Clark&quot;, &quot;Kent&quot;, &quot;SuperMan&quot;, &quot;flying&quot;);</p>
-<p>clark.hello(); clark.power(); ```</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> clark = <span class="kw">new</span> <span class="fu">SuperHero</span>(<span class="st">&quot;Clark&quot;</span>, <span class="st">&quot;Kent&quot;</span>, <span class="st">&quot;SuperMan&quot;</span>, <span class="st">&quot;flying&quot;</span>);
+
+<span class="ot">clark</span>.<span class="fu">hello</span>();
+<span class="ot">clark</span>.<span class="fu">power</span>();</code></pre>
 <p>... Tout simplement!</p>
 <p>Une autre nouveauté est l'apparition des <strong>Arrow Functions</strong>, ou comment nous allons faire moins d'erreurs dans le futur.</p>
 <h2 id="arrow-function"><a href="#arrow-function"><span class="header-section-number">1.6</span> Arrow function</a></h2>
