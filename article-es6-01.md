@@ -246,7 +246,7 @@ function getSuperhero (
 
 Avec ES6, nous pouvons nous passer du mot clé `function`, de cette manière:
 
-```javascript`
+```javascript
 function getSuperhero (
     firstName
   , lastName
@@ -422,7 +422,7 @@ export default SuperHero;
 
 **Notez bien** l'utilisation du mot-clé `super` pour utiliser le constructeur de la classe parente. Ensuite pour utiliser notre nouvelle classe retournez dans `main.js`:
 
-```javascript`
+```javascript
 var clark = new SuperHero("Clark", "Kent", "SuperMan", "flying");
 
 clark.hello();
