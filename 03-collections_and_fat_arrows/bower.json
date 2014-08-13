@@ -1,7 +1,0 @@
-{
-  "name": "es6-project",
-  "version": "0.0.0",
-  "dependencies": {
-    "traceur": "0.0.49"
-  }
-}

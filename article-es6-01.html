@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<div id="TOC">
+<ul>
+<li><a href="#programmez-en-ecmascript-6-aujourdhui-chapitre-1"><span class="toc-section-number">1</span> Programmez en ECMAScript 6 aujourd'hui (Chapitre 1)</a><ul>
+<li><a href="#préparons-notre-projet"><span class="toc-section-number">1.1</span> Préparons notre projet</a></li>
+<li><a href="#les-constantes"><span class="toc-section-number">1.2</span> Les constantes</a></li>
+<li><a href="#les-chaînes-de-caractères"><span class="toc-section-number">1.3</span> Les chaînes de caractères</a></li>
+<li><a href="#les-objets-javascript"><span class="toc-section-number">1.4</span> Les objets JavaScript</a><ul>
+<li><a href="#initialisation-des-propriétés"><span class="toc-section-number">1.4.1</span> Initialisation des propriétés</a></li>
+<li><a href="#définition-des-méthodes-de-lobjet"><span class="toc-section-number">1.4.2</span> Définition des méthodes de l'objet</a></li>
+<li><a href="#object.assign"><span class="toc-section-number">1.4.3</span> <code>Object.assign()</code></a></li>
+</ul></li>
+<li><a href="#les-classes-et-un-début-de-modularisation"><span class="toc-section-number">1.5</span> Les classes et un début de modularisation</a><ul>
+<li><a href="#ère-classe"><span class="toc-section-number">1.5.1</span> 1ère classe</a></li>
+<li><a href="#lhéritage"><span class="toc-section-number">1.5.2</span> L'héritage</a></li>
+</ul></li>
+<li><a href="#arrow-function"><span class="toc-section-number">1.6</span> Arrow function</a></li>
+<li><a href="#promise"><span class="toc-section-number">1.7</span> Promise</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="programmez-en-ecmascript-6-aujourdhui-chapitre-1"><a href="#programmez-en-ecmascript-6-aujourdhui-chapitre-1"><span class="header-section-number">1</span> Programmez en ECMAScript 6 aujourd'hui (Chapitre 1)</a></h1>
+<p>Nombreux sont les développeurs qui n'aiment pas le JavaScript (pas typé, pas de classes, modèle objet &quot;bizarre&quot;, ...), et pourtant le futur de ce &quot;petit&quot; langage omniprésent est passionnant et prometteur? Et ce futur c'est <strong>ECMAScript 6</strong>, et vous pouvez déjà y avoir accès.</p>
+<p>L'objectif de ce premier article est de vous mettre le pied à l'étrier et de vous faire découvrir quelques aspects d'ECMAScript 6 (mais pas tous). Nous aborderons donc les sujets suivants:</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>Préparation de votre projet</li>
+<li>Les constantes</li>
+<li>Les nouveautés dans les chaînes de caractères</li>
+<li>Les objets &quot;littéraux&quot;</li>
+<li>Les classes</li>
+<li>Les &quot;Arrow Functions&quot;</li>
+<li>Les promises</li>
+</ul>
+</blockquote>
+</blockquote>
+<p>Dans un 1er temps, Nous allons voir comment développer en ECMAScript 6 &quot;côté navigateur&quot;. Il y a plusieurs façons de s'y prendre mais le principe de base est le suivant:</p>
+<ol style="list-style-type: decimal">
+<li>Vous codez avec une syntaxe ES6 <em>(le petit nom d'ECMAScript 6)</em></li>
+<li>Vous &quot;transpilez&quot; <em>(une sorte de compilation script à script)</em> votre code ES6 vers du code JavaScript 5 ou 3 pour qu'il soit compréhensible (exécutable) par votre navigateur</li>
+</ol>
+<p>Ensuite vous avez deux sortes de &quot;transpilations&quot;:</p>
+<ul>
+<li>la transpilation <strong>&quot;online/in-browser&quot;</strong>: votre navigateur va se charger (grâce à un script de transpilation) de transpiler votre code à la volée (au chargement). C'est la méthode la moins optimisée, mais la plus simple d'un point de vue apprentissage, et donc celle que nous retiendrons.</li>
+<li>la transpilation <strong>&quot;build step/offline&quot;</strong>: avant de publier vos scripts et pages sur le web, vous transpilez &quot;à l'avance&quot; à l'aide d'un &quot;transpileur&quot; vos codes ES6.</li>
+</ul>
+<p>Le transpileur ES6 que nous utiliserons est <strong>Traceur</strong>: <a href="https://github.com/google/traceur-compiler">https://github.com/google/traceur-compiler</a>.</p>
+<p>Si vous souhaitez l'utiliser en mode &quot;offline&quot;, il faudra installer le projet et le builder pour disposer en mode commande du transpileur, ou encore plus simplement, en mode commande, utilisez: <code>npm install traceur -g</code> (j'insiste sur l'option <strong><code>-g</code></strong> qui permet d'installer <strong>Traceur</strong> de manière globale, donc accessible de n'importe où).</p>
+<p>Si vous souhaitez l'utiliser en mode &quot;offline&quot;, nous installerons <strong>Traceur</strong> de manière locale à votre répertoire projet avec la commande <code>npm install traceur</code> (donc sans l'option <strong><code>-g</code></strong>).</p>
+<p>Les pré-requis sont donc d'avoir <strong>Nodejs</strong> et <strong>npm</strong> installés. Vous aurez aussi besoin d'un serveur http pour que cela fonctionne (nous verrons plus loin pourquoi). Le plus simple est d'installer l'utilitaire <strong>http-server</strong> <a href="https://github.com/nodeapps/http-server">https://github.com/nodeapps/http-server</a> d'une simple commande <code>npm install http-server -g</code>.</p>
+<h2 id="préparons-notre-projet"><a href="#préparons-notre-projet"><span class="header-section-number">1.1</span> Préparons notre projet</a></h2>
+<p>Dans un répertoire de votre choix, à partir d'un terminal (ou une console selon votre OS), tapez donc la commande <code>npm install traceur</code>. Le gestionnaire de packages <strong>npm</strong> va aller télécharger les dépendances nécessaires et les installer dans un sous-répertoire de votre projet appelé <code>node_modules</code>.</p>
+<p>Ensuite à la racine de votre projet, créez un sous-répertoire <code>js</code> (vous pouvez tout à fait le nommer autrement), avec à l'intérieur un fichier <code>main.js</code> avec par exemple le code suivant:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">console</span>.<span class="fu">log</span>(<span class="st">&quot;=== Hello World! ===&quot;</span>);</code></pre>
+<p>C'est dans ce fichier <code>main.js</code> que nous saisirons nos codes d'exemples par la suite.</p>
+<p>Nous avons ensuite besoin de charger (et transpiler) ce fichier <code>main.js</code> à partir d'une page html (que nous appelerons <code>index.html</code>). Nous créons donc ce fichier <code>index.html</code> avec le code suivant:</p>
+<pre class="sourceCode html"><code class="sourceCode html"><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span>
+<span class="kw">&lt;html&gt;</span>
+<span class="kw">&lt;head&gt;</span>
+  <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;title&gt;</span>es6-project<span class="kw">&lt;/title&gt;</span>
+<span class="kw">&lt;/head&gt;</span>
+
+<span class="kw">&lt;body&gt;</span>
+
+  <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">&quot;node_modules/traceur/bin/traceur.js&quot;</span><span class="kw">&gt;&lt;/script&gt;</span>
+  <span class="kw">&lt;script&gt;</span>
+    <span class="ot">traceur</span>.<span class="ot">options</span>.<span class="fu">experimental</span> = <span class="kw">true</span>;
+  <span class="kw">&lt;/script&gt;</span>
+
+  <span class="kw">&lt;script&gt;</span>
+<span class="er">    System.import(&#39;js/main&#39;).catch(function(e){</span>
+<span class="er">      console.log(e);</span>
+    });
+  <span class="kw">&lt;/script&gt;</span>
+<span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></code></pre>
+<p>Notre page n'affichera rien, elle sert juste à lancer notre script, pour la suite de notre article nous utiliserons la console de notre navigateur pour afficher les éléments de sortie (les Chrome Developper Tools ou la console de FireFox). La commande <code>System.import('js/main')</code> permet de charger le fichier <code>main.js</code> <em>(notez que l'on ne précise pas l'extension)</em>. Ensuite l'utilisation de <code>catch(...)</code> permet de &quot;capturer&quot; les erreurs et les afficher.</p>
+<p>Si vous vous contentez de double-clicker sur la page pour l'ouvrir (c'est à dire en mode <code>file:///</code>), votre console va vous retourner un message d'erreur de ce type:</p>
+<pre><code>XMLHttpRequest cannot load file:///.../js/main.js. 
+Cross origin requests are only supported for HTTP. </code></pre>
+<p>En effet <code>System.import('js/main')</code> utilise &quot;ajax&quot; pour charger le fichier <code>main.js</code>, vous avez donc besoin de &quot;servir&quot; votre page avec un serveur http pour que cela fonctionne.</p>
+<p>Donc depuis votre répertoire, tapez: <code>http-server</code> qui va créer une instance de serveur http écoutant sur le port 8080 et ouvrez à nouveau votre page à partir du navigateur mais en utilisant cette url: <a href="http://localhost:8080/">http://localhost:8080/</a> et vous obtiendrez dans la console de votre navigateur un &quot;superbe&quot;:</p>
+<pre><code>=== Hello World! === </code></pre>
+<p>Voilà! Vous disposez de tout ce qui est nécessaire pour écrire vos 1ères lignes de code ES6. Nous allons y aller pas à pas.</p>
+<h2 id="les-constantes"><a href="#les-constantes"><span class="header-section-number">1.2</span> Les constantes</a></h2>
+<p>Ce n'est pas forcément ce qui m'a le plus manqué dans JavaScript, mais il faut avouer que pouvoir définir des constantes apporte de la lisibilité et de la robustesse au code. Il est donc temps d'aller dans votre fichier <code>main.js</code> et d'y saisir quelques lignes:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">const</span> GEEK_NAME = <span class="st">&quot;k33g&quot;</span>;
+<span class="kw">const</span> GEEK_NUMBER = <span class="dv">42</span>;
+
+<span class="kw">function</span> <span class="fu">giveMeAGeek</span>() {
+  <span class="kw">const</span> GEEK_NAME = <span class="st">&quot;geek&quot;</span> + GEEK_NUMBER;
+  <span class="kw">return</span> GEEK_NAME;
+}
+
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="fu">giveMeAGeek</span>());
+<span class="ot">console</span>.<span class="fu">log</span>(GEEK_NAME);</code></pre>
+<p>Si vous raffraichissez votre page, vous obtiendrez ceci dans votre console:</p>
+<pre class="shell"><code>geek42
+k33g </code></pre>
+<p>Vous remarquez que les constantes peuvent aussi être spécifiques à un scope.</p>
+<p>Maintenant ajoutez le code ci-dessous à la fin de votre script:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">GEEK_NAME = <span class="st">&quot;Bob Morane&quot;</span>;</code></pre>
+<p>Puis raffraichissez votre page, vous obtiendrez dans votre console un message d'erreur de ce type:</p>
+<pre class="shell"><code>Error {stack: (...), message: &quot;http://.../js/main.js:12:1: GEEK_NAME is read-only&quot;}</code></pre>
+<p>Je ne vous ai donc pas menti, ce sont bien des constantes, ce qui à l'avenir vous évitera bien des ennuis.</p>
+<p>Voyons maintenant quelques nouveautés bien pratiques spécifiques aux chaîne de caractères.</p>
+<h2 id="les-chaînes-de-caractères"><a href="#les-chaînes-de-caractères"><span class="header-section-number">1.3</span> Les chaînes de caractères</a></h2>
+<p>Les chaînes de caractères héritent de méthodes utilitaires telles:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="st">&quot;Quarante-deux&quot;</span>.<span class="fu">contains</span>(<span class="st">&quot;-&quot;</span>);      <span class="co">// true</span>
+<span class="st">&quot;Quarante-deux&quot;</span>.<span class="fu">startsWith</span>(<span class="st">&quot;Q&quot;</span>);    <span class="co">// true</span>
+<span class="st">&quot;Quarante-deux&quot;</span>.<span class="fu">endsWith</span>(<span class="st">&quot;x&quot;</span>);      <span class="co">// true</span>
+
+<span class="st">&quot;Quarante-deux&quot;</span>.<span class="fu">repeat</span>(<span class="dv">3</span>);          
+<span class="co">// Quarante-deuxQuarante-deuxQuarante-deux</span></code></pre>
+<p>Mais la nouveauté que je préfère (pour les chaînes) est sans aucun doute <strong>l'interpolation de chaîne</strong>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> clark = {
+    <span class="dt">firstName</span>: <span class="st">&quot;Clark&quot;</span>
+  , <span class="dt">lastName</span>: <span class="st">&quot;Kent&quot;</span>
+  , <span class="dt">superheroName</span>: <span class="st">&quot;SuperMan&quot;</span>
+}
+
+<span class="ot">console</span>.<span class="fu">log</span>(
+  `Je suis ${<span class="ot">clark</span>.<span class="fu">superheroName</span>} aka <span class="st">&quot;${clark.firstName} ${clark.lastName}&quot;</span>`
+);</code></pre>
+<p>Vous obtiendrez:</p>
+<pre class="shell"><code>Je suis SuperMan aka &quot;Clark Kent&quot; </code></pre>
+<p>Ou en mode multi-lignes:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">console</span>.<span class="fu">log</span>(
+`Je suis ${<span class="ot">clark</span>.<span class="fu">superheroName</span>},
+et mon identité secrète est:
+<span class="st">&quot;${clark.firstName} ${clark.lastName}&quot;</span>`
+);</code></pre>
+<p>Et vous obtiendrez:</p>
+<pre class="shell"><code>Je suis SuperMan,
+et mon identité secrète est:
+&quot;Clark Kent&quot; </code></pre>
+<p><strong>Notez bien</strong> l'utilisation des <strong>backticks (`)</strong> à la place des double-quotes (&quot;) ou simple-quotes ('). Tout cela est beaucoup plus agréable que les laborieuses concaténation de chaînes, de variables et de sauts de lignes.</p>
+<p>Maintenant il est temps d'attaquer la programmation &quot;objet&quot;, en commençant justement par les objets (non, pas les classes, pas tout de suite).</p>
+<h2 id="les-objets-javascript"><a href="#les-objets-javascript"><span class="header-section-number">1.4</span> Les objets JavaScript</a></h2>
+<p>On parle aussi &quot;d'objet littéraux&quot;. Ils ont eux aussi gagné quelques améliorations et tout particulièrement des &quot;raccourcis&quot;. Comme la simplification de l'initialisation des propriétés.</p>
+<h3 id="initialisation-des-propriétés"><a href="#initialisation-des-propriétés"><span class="header-section-number">1.4.1</span> Initialisation des propriétés</a></h3>
+<p><strong>Avant</strong>, par exemple, si vous souhaitiez avoir une fonction qui &quot;fournisse&quot; des personnes, vous écriviez ceci:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">getHuman</span> (firstName, lastName) {
+  <span class="kw">var</span> superheroName = <span class="st">&quot;?&quot;</span>;
+  <span class="kw">return</span> {
+    <span class="dt">firstName</span>: firstName,
+    <span class="dt">lastName</span>: lastName
+  }
+}</code></pre>
+<p><strong>Maintenant</strong>, vous pouvez aller plus vite et écrire ceci:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">getHuman</span> (firstName, lastName) {
+  <span class="kw">var</span> superheroName = <span class="st">&quot;?&quot;</span>;
+  <span class="kw">return</span> {
+    firstName, lastName, superheroName
+  }
+}
+
+<span class="kw">var</span> clark = <span class="fu">getHuman</span>(<span class="st">&quot;Clark&quot;</span>, <span class="st">&quot;Kent&quot;</span>);
+
+<span class="ot">console</span>.<span class="fu">log</span>(clark);</code></pre>
+<p>Et vous obtiendrez ceci:</p>
+<pre class="shell"><code>Object {firstName: &quot;Clark&quot;, lastName: &quot;Kent&quot;, superheroName: &quot;?&quot;} </code></pre>
+<p>Le moteur JavaScript a recherché dans son &quot;scope&quot; courant (le corps de la fonction) des variables avec le même nom que celles de l'objet littéral. Dans le même ordre d'idée, la notation des méthodes d'un objet a elle aussi été simplifiée.</p>
+<h3 id="définition-des-méthodes-de-lobjet"><a href="#définition-des-méthodes-de-lobjet"><span class="header-section-number">1.4.2</span> Définition des méthodes de l'objet</a></h3>
+<p>Pour ajouter une fonction <code>hello()</code> à notre objet, habituellement nous procédons comme ceci:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> <span class="fu">getSuperhero</span> (
+    firstName
+  , lastName
+  , superheroName) {
+
+  <span class="kw">return</span> {
+      <span class="dt">firstName</span>: firstName
+    , <span class="dt">lastName</span>: lastName
+    , <span class="dt">superheroName</span>: superheroName
+    , <span class="dt">hello</span>: <span class="kw">function</span>()  {
+      <span class="kw">return</span>
+        <span class="st">&quot;Je suis &quot;</span>+superheroName+ <span class="st">&quot;aka &quot;</span> +firstName +<span class="st">&quot; &quot;</span> +lastName;
+    }
+  }
+}</code></pre>
+<p>Avec ES6, nous pouvons nous passer du mot clé <code>function</code>, de cette manière:</p>
+<p>``<code>javascript</code> function getSuperhero ( firstName , lastName , superheroName) {</p>
+<p>return { firstName , lastName , superheroName , hello() { return <code>Je suis ${superheroName} aka &quot;${firstName} ${lastName}&quot;</code>; } } }</p>
+<p>var clarkKent = getSuperhero(&quot;Clark&quot;, &quot;Kent&quot;, &quot;Superman&quot;);</p>
+<p>console.log(clarkKent.hello()) ```</p>
+<p>Et vous obtiendrez bien:</p>
+<pre class="shell"><code>Je suis Superman aka &quot;Clark Kent&quot; </code></pre>
+<p>Nous avons donc une notation plus concise qui permet de gagner en lisibilité. Dans le paragraphe suivant je vais vous parler d'une nouvelle méthode &quot;utilitaire&quot; ajoutée à <code>Object</code>, la méthode <code>assign()</code> qui va vous permettre de donner un côté &quot;fonctionnel&quot; à votre code.</p>
+<h3 id="object.assign"><a href="#object.assign"><span class="header-section-number">1.4.3</span> <code>Object.assign()</code></a></h3>
+<p>Cette nouvelle méthode, nous permet de faire des &quot;mixins&quot; entre objets, c'est à dire de greffer les propriétés et/ou méthodes d'un objet sur un autre. Voyons tout de suite comment procéder:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> tonyStark = {
+    <span class="dt">firstName</span>: <span class="st">&quot;Tony&quot;</span>
+  , <span class="dt">lastName</span>: <span class="st">&quot;Stark&quot;</span>
+  , <span class="dt">strength</span>: <span class="dv">100</span>
+  , <span class="dt">superheroName</span>: <span class="st">&quot;IronMan&quot;</span>
+}
+
+<span class="ot">console</span>.<span class="fu">log</span>(tonyStark);</code></pre>
+<p>Vous obtenez:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">Object {<span class="dt">firstName</span>: <span class="st">&quot;Tony&quot;</span>, <span class="dt">lastName</span>: <span class="st">&quot;Stark&quot;</span>, <span class="dt">strength</span>: <span class="dv">100</span>, <span class="dt">superheroName</span>: <span class="st">&quot;IronMan&quot;</span>} </code></pre>
+<p>Ensuite je créée un autre objet que je vais &quot;greffer&quot; à <code>tonyStark</code> avec <code>Object.assign(tonyStark, autreObjet)</code>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> armorAbilities = {
+    <span class="dt">strength</span>: <span class="dv">1000</span>
+  , <span class="fu">flight</span> () { <span class="ot">console</span>.<span class="fu">log</span>(<span class="st">&quot;Flying...&quot;</span>); }
+}
+
+<span class="ot">Object</span>.<span class="fu">assign</span>(tonyStark, armorAbilities);
+
+<span class="ot">console</span>.<span class="fu">log</span>(tonyStark);</code></pre>
+<p>Et vous obtenez un <code>tonyStark</code> amélioré avec de nouvelles capacités:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">Object {
+    <span class="dt">firstName</span>: <span class="st">&quot;Tony&quot;</span>,
+    <span class="dt">lastName</span>: <span class="st">&quot;Stark&quot;</span>,
+    <span class="dt">strength</span>: <span class="dv">1000</span>,
+    <span class="dt">superheroName</span>: <span class="st">&quot;IronMan&quot;</span>,
+    <span class="dt">flight</span>: <span class="kw">function</span> () {}
+}</code></pre>
+<p>Par contre toute modification de <code>armorAbilities</code> ne sera pas répercutée sur <code>tonyStark</code>. Pour cela il faudrait plutôt travailler par référence en créant une propriété <code>armorAbilities</code> que l'on &quot;assigne&quot; à <code>tonyStark</code>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="ot">Object</span>.<span class="fu">assign</span>(tonyStark, {armorAbilities});
+
+<span class="ot">Object</span>.<span class="fu">assign</span>(armorAbilities, {<span class="fu">createMagneticFields</span> () { <span class="kw">return</span> []}});
+
+<span class="ot">console</span>.<span class="fu">log</span>(tonyStark);</code></pre>
+<p>Et nous obtiendrons l'objet suivant:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">Object {
+    <span class="dt">armorAbilities</span>: Object {
+        <span class="dt">createMagneticFields</span>: <span class="kw">function</span> () {},
+        <span class="dt">flight</span>: <span class="kw">function</span> () {},
+        <span class="dt">strength</span>: <span class="dv">1000</span>,
+    },
+    <span class="dt">firstName</span>: <span class="st">&quot;Tony&quot;</span>,
+    <span class="dt">lastName</span>: <span class="st">&quot;Stark&quot;</span>,
+    <span class="dt">strength</span>: <span class="dv">100</span>,
+    <span class="dt">superheroName</span>: <span class="st">&quot;IronMan&quot;</span>
+}</code></pre>
+<p>Tout dépend de votre besoin à l'exécution. Mais passons à quelque chose d'encore plus &quot;exitant&quot;, les classes!</p>
+<h2 id="les-classes-et-un-début-de-modularisation"><a href="#les-classes-et-un-début-de-modularisation"><span class="header-section-number">1.5</span> Les classes et un début de modularisation</a></h2>
+<p>Même si on peut très bien s'en passer (étant donné le modèle objet de JavaScript), de nombreuses personnes reprochaient à JavaScript l'absence de classe. Et bien, c'est fait elles sont là! Pour ceux qui connaissent les classes de <strong>CoffeeScript</strong>, le principe est le même. Voire même, elles auraient inspiré celles d'ECMAScript 6 si l'on en croit le blog de <strong>Brendan Heich</strong> (le papa de JavaScript): <a href="https://brendaneich.com/tag/javascript-ecmascript-harmony-coffeescript/">https://brendaneich.com/tag/javascript-ecmascript-harmony-coffeescript/</a>.</p>
+<h3 id="ère-classe"><a href="#ère-classe"><span class="header-section-number">1.5.1</span> 1ère classe</a></h3>
+<p>Créeons donc notre première classe. Au même niveau que <code>main.js</code>, créez un fichier <code>Human.js</code> avec le code suivant:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">class</span> Human {
+
+  <span class="fu">constructor</span>(firstName = <span class="st">&quot;John&quot;</span>, lastName = <span class="st">&quot;Doe&quot;</span>) {
+    <span class="co">/* Et oui les paramètres par défaut existent! */</span>
+
+    <span class="co">/* membres d&#39;instance */</span>
+    <span class="kw">this</span>.<span class="fu">firstName</span> = firstName;
+    <span class="kw">this</span>.<span class="fu">lastName</span> = lastName;
+  }
+
+  <span class="fu">hello</span> () {
+    <span class="ot">console</span>.<span class="fu">log</span>(`Hello, I<span class="st">&#39;m ${this.firstName} ${this.lastName}`);</span>
+  }
+
+}
+
+<span class="kw">export</span> <span class="kw">default</span> Human;</code></pre>
+<p>Ensuite pour utiliser notre classe <code>Human</code>, modifiez le fichier <code>main.js</code> de cette façon:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">import</span> Human from <span class="st">&#39;./Human&#39;</span>;
+
+<span class="kw">var</span> john = <span class="kw">new</span> <span class="fu">Human</span>();
+<span class="ot">john</span>.<span class="fu">hello</span>();
+
+<span class="kw">var</span> tony = <span class="kw">new</span> <span class="fu">Human</span>(<span class="st">&quot;Tony&quot;</span>, <span class="st">&quot;Stark&quot;</span>);
+<span class="ot">tony</span>.<span class="fu">hello</span>();</code></pre>
+<p>Et si vous raffraichissez votre page, vous obtiendrez ceci dans la console du navigateur:</p>
+<pre class="shell"><code>Hello, I&#39;m John Doe
+Hello, I&#39;m Tony Stark </code></pre>
+<p>Les possibilités des classes évolueront sûrement, mais rien que ça est déjà très pratique pour structurer son code. <strong>Notez bien</strong> la façon de déclarer une référence à un fichier: <code>import Human from './Human';</code> (toujours sans l'extension <code>.js</code>). Mais sachez qu'il existe déjà une autre possibilité déjà fonctionnelle: <strong>l'héritage</strong>!</p>
+<h3 id="lhéritage"><a href="#lhéritage"><span class="header-section-number">1.5.2</span> L'héritage</a></h3>
+<p>Même s'il ne faut pas en abuser, l'héritage est utile dans certains design de code (à vous ensuite de faire la part des choses avec des solutions plus fonctionnelles comme avec les &quot;mixins&quot;). L'héritage se fait tout simplement avec le mot clé <code>extends</code>. Créez un nouveau fichier <code>SuperHero.js</code> (toujours au même endroit) avec le code source suivant:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">import</span> Human from <span class="st">&#39;./Human&#39;</span>;
+
+<span class="kw">class</span> SuperHero <span class="kw">extends</span> Human {
+
+  <span class="fu">constructor</span> (firstName, lastName, heroName, ability) {
+    <span class="kw">super</span>(firstName, lastName);
+    <span class="kw">this</span>.<span class="fu">heroName</span> = heroName;
+    <span class="kw">this</span>.<span class="fu">ability</span> = ability;
+  }
+  <span class="fu">power</span> () {
+    <span class="ot">console</span>.<span class="fu">log</span>(`I<span class="st">&#39;m ${this.heroName} and I&#39;</span>m ${<span class="kw">this</span>.<span class="fu">ability</span>}`);
+  }
+}
+
+<span class="kw">export</span> <span class="kw">default</span> SuperHero;</code></pre>
+<p><strong>Notez bien</strong> l'utilisation du mot-clé <code>super</code> pour utiliser le constructeur de la classe parente. Ensuite pour utiliser notre nouvelle classe retournez dans <code>main.js</code>:</p>
+<p>``<code>javascript</code> var clark = new SuperHero(&quot;Clark&quot;, &quot;Kent&quot;, &quot;SuperMan&quot;, &quot;flying&quot;);</p>
+<p>clark.hello(); clark.power(); ```</p>
+<p>... Tout simplement!</p>
+<p>Une autre nouveauté est l'apparition des <strong>Arrow Functions</strong>, ou comment nous allons faire moins d'erreurs dans le futur.</p>
+<h2 id="arrow-function"><a href="#arrow-function"><span class="header-section-number">1.6</span> Arrow function</a></h2>
+<p>Avant nous faisions ceci:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> bob = {
+  <span class="dt">name</span>: <span class="st">&quot;Bob Morane&quot;</span>,
+  <span class="dt">friends </span>: [<span class="st">&quot;Sam&quot;</span>, <span class="st">&quot;Ted&quot;</span>, <span class="st">&quot;Paul&quot;</span>],
+  <span class="dt">helloBuddies</span>: <span class="kw">function</span>() {
+    <span class="kw">this</span>.<span class="ot">friends</span>.<span class="fu">forEach</span>(<span class="kw">function</span>(buddy) {
+      <span class="ot">console</span>.<span class="fu">log</span>(buddy + <span class="st">&quot; is a friend of &quot;</span> + <span class="kw">this</span>.<span class="fu">name</span>);
+    });
+  }
+}
+
+<span class="ot">bob</span>.<span class="fu">helloBuddies</span>();</code></pre>
+<p>Et nous obtenions ceci:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">Sam is a friend of 
+Ted is a friend of
+Paul is a friend of  </code></pre>
+<p>au lieu de:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript">Sam is a friend of Bob Morane
+Ted is a friend of Bob Morane
+Paul is a friend of Bob Morane</code></pre>
+<p>Erreur classique en javascript, le <code>this</code> de <code>this.name</code> est une référence à <code>this.friends</code> (qui n'a pas de propriété <code>name</code>) et non pas à <code>bob</code>, d'où le comportement inattendu.</p>
+<p>Jusqu'ici il fallait pallier cela en posant une référence à l'objet attendu, comme ceci par exemple:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> bob = {
+  <span class="dt">name</span>: <span class="st">&quot;Bob Morane&quot;</span>,
+  <span class="dt">friends </span>: [<span class="st">&quot;Sam&quot;</span>, <span class="st">&quot;Ted&quot;</span>, <span class="st">&quot;Paul&quot;</span>],
+  <span class="dt">helloBuddies</span>: <span class="kw">function</span>() {
+    <span class="kw">var</span> that = <span class="kw">this</span>; <span class="co">// &lt;- that fait référence à Bob</span>
+    <span class="kw">this</span>.<span class="ot">friends</span>.<span class="fu">forEach</span>(<span class="kw">function</span>(buddy) {
+      <span class="ot">console</span>.<span class="fu">log</span>(buddy + <span class="st">&quot; is a friend of &quot;</span> + <span class="ot">that</span>.<span class="fu">name</span>);
+    });
+  }
+}
+
+<span class="ot">bob</span>.<span class="fu">helloBuddies</span>();</code></pre>
+<p>Ou, l'on pouvait aussi faire un <code>bind(this)</code> sur la fonction:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> bob = {
+  <span class="dt">name</span>: <span class="st">&quot;Bob Morane&quot;</span>,
+  <span class="dt">friends </span>: [<span class="st">&quot;Sam&quot;</span>, <span class="st">&quot;Ted&quot;</span>, <span class="st">&quot;Paul&quot;</span>],
+  <span class="dt">helloBuddies</span>: <span class="kw">function</span>() {
+    <span class="kw">this</span>.<span class="ot">friends</span>.<span class="fu">forEach</span>(<span class="kw">function</span>(buddy) {
+      <span class="ot">console</span>.<span class="fu">log</span>(buddy + <span class="st">&quot; is a friend of &quot;</span> + <span class="kw">this</span>.<span class="fu">name</span>);
+    }.<span class="fu">bind</span>(<span class="kw">this</span>));
+  }
+}
+<span class="ot">bob</span>.<span class="fu">helloBuddies</span>();</code></pre>
+<p>En ES6, avec la <strong>Arrow function</strong> ou <strong>fat arrow</strong> (<code>=&gt;</code>), plus de problèmes, vous pourrez écrire ceci:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> bob = {
+  <span class="dt">name</span>: <span class="st">&quot;Bob Morane&quot;</span>,
+  <span class="dt">friends </span>: [<span class="st">&quot;Sam&quot;</span>, <span class="st">&quot;Ted&quot;</span>, <span class="st">&quot;Paul&quot;</span>],
+  <span class="fu">helloBuddies</span> () {
+    <span class="kw">this</span>.<span class="ot">friends</span>.<span class="fu">forEach</span>((buddy) =&gt; {
+      <span class="ot">console</span>.<span class="fu">log</span>(buddy + <span class="st">&quot; is a friend of &quot;</span> + <span class="kw">this</span>.<span class="fu">name</span>);
+    });
+  }
+}
+
+<span class="ot">bob</span>.<span class="fu">helloBuddies</span>();</code></pre>
+<p>ou même plus simplement:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> bob = {
+  <span class="dt">name</span>: <span class="st">&quot;Bob Morane&quot;</span>,
+  <span class="dt">friends </span>: [<span class="st">&quot;Sam&quot;</span>, <span class="st">&quot;Ted&quot;</span>, <span class="st">&quot;Paul&quot;</span>],
+  <span class="fu">helloBuddies</span> () {
+    <span class="kw">this</span>.<span class="ot">friends</span>.<span class="fu">forEach</span>((buddy) =&gt; <span class="ot">console</span>.<span class="fu">log</span>(buddy + <span class="st">&quot; is a friend of &quot;</span> + <span class="kw">this</span>.<span class="fu">name</span>));
+  }
+}
+
+<span class="ot">bob</span>.<span class="fu">helloBuddies</span>();</code></pre>
+<p>Vous pouvez considérer les &quot;Arrow Functions&quot; comme des lambda expressions et les utiliser de la sorte:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> addition = (a,b) =&gt; a+b;
+
+<span class="kw">var</span> substraction = (a,b) =&gt; { <span class="kw">return</span> a - b; }
+
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="fu">addition</span>(<span class="dv">5</span>,<span class="dv">4</span>));
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="fu">substraction</span>(<span class="dv">5</span>,<span class="dv">4</span>));</code></pre>
+<p>Non seulement cela va nous éviter pas mal d'erreurs (le syndrome du <code>this</code>) et autres effets de bord, mais en plus cette façon de faire optimise le fonctionnement du moteur JavaScript car il travail sur un scope unique et la arraw function n'a pas de constructeur. De plus comme vous pouvez le voir dans l'utilisation du <code>forEach</code>, elle est parfaitement adaptée pour l'utilisation des callbacks.</p>
+<p>Maintenant que nous connaissons cette nouvelle notation, nous pouvons attaquer quelque chose de &quot;génialement&quot; pratique, tout particulièrement dans un monde asynchrone: les <strong>Promises</strong>.</p>
+<h2 id="promise"><a href="#promise"><span class="header-section-number">1.7</span> Promise</a></h2>
+<p>Je vais tenter ma propre définition: la <strong>Promise</strong> c'est ce qui nous permettra de définir <strong>simplement</strong> à la fois:</p>
+<ul>
+<li>ce qu'il va se passer une fois qu'un traitement est terminé</li>
+<li>ce qu'il va se passer si le traitement &quot;fonctionne mal&quot;</li>
+</ul>
+<p>Nous allons donc voir comment créer facilement une <strong>Promise</strong> et l'utiliser. Par exemple, je fais un traitement qui divise <code>42</code> par un nombre aléatoire compris entre <code>0</code> et <code>42</code>:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> divideFourtyTwoBySomething = () =&gt; <span class="kw">new</span> <span class="fu">Promise</span>((resolve, reject) =&gt; {
+
+  <span class="kw">var</span> randomnumber = <span class="ot">Math</span>.<span class="fu">floor</span>(<span class="ot">Math</span>.<span class="fu">random</span>() * <span class="dv">43</span>);
+
+  <span class="kw">if</span> (randomnumber &gt; <span class="dv">0</span>) {
+    <span class="kw">var</span> result = <span class="dv">42</span> / randomnumber;
+    <span class="fu">resolve</span>({randomnumber, result});
+  } <span class="kw">else</span> {
+    <span class="fu">reject</span>(<span class="kw">new</span> <span class="fu">Error</span>(<span class="st">&quot;Divided by 0!&quot;</span>));
+  }
+
+});</code></pre>
+<p>Pour créer une <strong>Promise</strong>, j'utilise tout simplement l'objet <code>Promise</code> qui prend en paramètre de son constructeur une lambda ayant 2 paramètres correspondants chacun à un &quot;callback&quot; : <code>resolve(data)</code>, ce que j'appelle si tout se termine bien et <code>reject(error)</code>, ce que j'appelle si tout se passe mal. De cette manière, l'objet <code>Promise</code> nous permet d'utiliser <code>divideFourtyTwoBySomething()</code> de la façon suivante:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">/* appeler divideFourtyTwoBySomething toute les secondes */</span>
+<span class="fu">setInterval</span>(() =&gt; 
+  <span class="fu">divideFourtyTwoBySomething</span>().<span class="fu">then</span>((data) =&gt; {
+    <span class="co">/* tout va bien */</span>
+    <span class="ot">console</span>.<span class="fu">log</span>(<span class="dv">42</span>,<span class="st">&quot;divide by&quot;</span>, <span class="ot">data</span>.<span class="fu">randomnumber</span>, <span class="st">&quot;=&quot;</span>, <span class="ot">data</span>.<span class="fu">result</span>);
+  }).<span class="fu">catch</span>((err) =&gt; {
+    <span class="co">/* tout va mal */</span>
+    <span class="ot">console</span>.<span class="fu">log</span>(err);
+  })
+, <span class="dv">1000</span>);</code></pre>
+<p>ce qui nous donnera quelque chose comme ceci:</p>
+<pre class="shell"><code>42 &quot;divide by&quot; 36 &quot;=&quot; 1.1666666666666667
+42 &quot;divide by&quot; 27 &quot;=&quot; 1.5555555555555556
+42 &quot;divide by&quot; 25 &quot;=&quot; 1.68
+Error {stack: (...), message: &quot;Divided by 0!&quot;}
+42 &quot;divide by&quot; 16 &quot;=&quot; 2.625
+42 &quot;divide by&quot; 42 &quot;=&quot; 1 </code></pre>
+<p>Donc notre objet <code>Promise</code> nous fournit 2 méthodes chaînées:</p>
+<ul>
+<li><code>then(successCallback)</code> <em>(<code>successCallback</code> correspond à notre <code>resolve</code>)</em></li>
+<li><code>catch(errorCallback)</code> <em>(<code>errorCallback</code> correspond à notre <code>reject</code>)</em></li>
+</ul>
+<p>ECMAScript 6 nous propose là un moyen très simple de travailler en asynchrone et de reproduire en quelques lignes de code ce qui en prenait des dizaines et des dizaines (je pense notamment aux promises jQuery). Il deviendra très facile de créer des utilitaires JavaScript pour faire par exemple des requêtes ajax &quot;user friendly&quot;:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">new</span> <span class="fu">Request</span>(<span class="st">&quot;/humans/bob&quot;</span>)
+    .<span class="fu">get</span>()
+    .<span class="fu">then</span>((data) =&gt; {})
+    .<span class="fu">catch</span>((error) =&gt; {});</code></pre>
+<p>Il y a encore beaucoup d'autres choses à découvrir comme les <strong>collections</strong> (Set, Map), les <strong>proxies</strong>, ... mais c'est une autre histoire (préparez vous à la suite bientôt). En attendant, n'hésitez pas à réagir et à contribuer à cette première partie dont vous trouverez une version &quot;github&quot; (avec les exemples de code) par ici: <a href="https://github.com/my-tutorials/je.decouvre.es6">https://github.com/my-tutorials/je.decouvre.es6</a>.</p>
+</body>
+</html>

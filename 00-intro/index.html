@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>es6-project</title>
+  <link rel="icon" sizes="196x196" href="html5.png">
+  <style>
+    body { background:#ffffff; font-size: 13px; color: #666666; font-family: Arial, helvetica, sans-serif;}
+    h1 { color: #000000; }
+  </style>
+
+</head>
+
+<body style="padding: 20px">
+
+  <h1>ECMAScript 6</h1>
+
+  <script src="node_modules/traceur/bin/traceur.js"></script>
+
+  <script>
+    traceur.options.experimental = true;
+  </script>
+
+  <script>
+    System.import('js/main').catch(function(e){console.log(e);});
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "je.decouvre.es6",
+  "description": "je.decouvre.es6",
+  "version": "0.0.0",
+  "repository": "https://github.com/my-tutorials/je.decouvre.es6.git",
+  "dependencies": {
+    "traceur": "0.0.56"
+  }
+}
