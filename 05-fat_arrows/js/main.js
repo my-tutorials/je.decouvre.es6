@@ -8,9 +8,9 @@ console.log(addition(5,4));
 console.log(substraction(5,4));
 
 
-var bob = {
-  name: "Bob Morane",
-  friends : ["Sam", "Ted", "Paul"],
+var oliver = {
+  name: "Oliver Queen",
+  friends : ["Black Canary", "Batman", "Green Lantern"],
   helloBuddies () {
     /*
     this.friends.forEach((buddy) => {
@@ -21,14 +21,14 @@ var bob = {
   }
 }
 
-bob.helloBuddies();
+oliver.helloBuddies();
 
 
 
 /* === bad side effect version ===
-var bob = {
-  name: "Bob Morane",
-  friends : ["Sam", "Ted", "Paul"],
+var oliver = {
+  name: "Oliver Queen",
+  friends : ["Black Canary", "Batman", "Green Lantern"],
   helloBuddies: function() {
     this.friends.forEach(function(buddy) {
       console.log(buddy + " is a friend of " + this.name);
@@ -36,13 +36,13 @@ var bob = {
   }
 }
 
-bob.helloBuddies();
+ oliver.helloBuddies();
 */
 
 /* === that version ===
-var bob = {
-  name: "Bob Morane",
-  friends : ["Sam", "Ted", "Paul"],
+var oliver = {
+  name: "Oliver Queen",
+  friends : ["Black Canary", "Batman", "Green Lantern"],
   helloBuddies: function() {
     var that = this;
     this.friends.forEach(function(buddy) {
@@ -51,18 +51,18 @@ var bob = {
   }
 }
 
-bob.helloBuddies();
+ oliver.helloBuddies();
 */
 
 /* === bind version ===
-var bob = {
-  name: "Bob Morane",
-  friends : ["Sam", "Ted", "Paul"],
+var oliver = {
+  name: "Oliver Queen",
+  friends : ["Black Canary", "Batman", "Green Lantern"],
   helloBuddies: function() {
     this.friends.forEach(function(buddy) {
       console.log(buddy + " is a friend of " + this.name);
     }.bind(this));
   }
 }
-bob.helloBuddies();
+ oliver.helloBuddies();
 */
