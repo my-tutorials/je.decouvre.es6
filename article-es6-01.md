@@ -15,7 +15,7 @@ L'objectif de ce premier article est de vous mettre le pied à l'étrier et de v
 Dans un 1er temps, Nous allons voir comment développer en ECMAScript 6 "côté navigateur". Il y a plusieurs façons de s'y prendre mais le principe de base est le suivant:
 
 1. Vous codez avec une syntaxe ES6 *(le petit nom d'ECMAScript 6)*
-2. Vous "transpilez" *(une sorte de compilation script à script)* votre code ES6 vers du code JavaScript 5 ou 3 pour qu'il soit compréhensible (exécutable) par votre navigateur 
+2. Vous "transpilez" *(une sorte de compilation script à script)* votre code ES6 vers du code ES 5 ou 3 pour qu'il soit compréhensible (exécutable) par votre navigateur 
 
 Ensuite vous avez deux sortes de "transpilations":
 
