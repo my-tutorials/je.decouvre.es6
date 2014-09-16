@@ -61,7 +61,7 @@ Nous avons ensuite besoin de charger (et transpiler) ce fichier `main.js` à par
 
   <script>
     System.import('js/main').catch(function(e){
-      console.log(e);
+      console.error(e);
     });
   </script>
 </body>
